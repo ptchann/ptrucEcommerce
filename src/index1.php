@@ -6,23 +6,8 @@ $password = "ptchan";
 
 $conn = new mysqli($servername, $username, $password, 'banhang');
 
-// Check connection
-// if ($conn->connect_error) {
-//   die("Connection failed: " . $conn->connect_error);
-// } 
-
-// $sql = "SELECT id, full_name FROM users";
-// $result = $conn->query($sql);
-
-// if ($result->num_rows > 0) {
-//   // output data of each row
-//   while($row = $result->fetch_assoc()) {
-//     echo "id: " . $row["id"]. " - Name: " . $row["full_name"]. "<br>";
-//   }
-// } else {
-//   echo "0 results";
-// }
-// $conn->close();
+// Dùng Isset kiểm tra
+$_SESSION['username'] = $username;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,10 +84,10 @@ $conn = new mysqli($servername, $username, $password, 'banhang');
 	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
 			  <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="username"><?php $_SESSION['username'] = $username; echo $username ?></a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
-                <a class="dropdown-item" href="account.php">Register</a>
-                <a class="dropdown-item" href="login.php">Sign In</a>
+                <a class="dropdown-item" href="logout.php">My account</a>
+                <a class="dropdown-item" href="logout.php">Logout</a>
               </div>
             </li>
 	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
