@@ -1,28 +1,14 @@
 <?php
 // echo  phpinfo(); exit;
 $servername = "mysql";
-$username = "ptchan";
+$usernamedb = "ptchan";
 $password = "ptchan";
 
-$conn = new mysqli($servername, $username, $password, 'banhang');
+$conn = new mysqli($servername, $usernamedb, $password, 'banhang');
 
-// Check connection
-// if ($conn->connect_error) {
-//   die("Connection failed: " . $conn->connect_error);
-// } 
-
-// $sql = "SELECT id, full_name FROM users";
-// $result = $conn->query($sql);
-
-// if ($result->num_rows > 0) {
-//   // output data of each row
-//   while($row = $result->fetch_assoc()) {
-//     echo "id: " . $row["id"]. " - Name: " . $row["full_name"]. "<br>";
-//   }
-// } else {
-//   echo "0 results";
-// }
-// $conn->close();
+// Dùng Isset kiểm tra
+@ob_flush();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,35 +64,38 @@ $conn = new mysqli($servername, $username, $password, 'banhang');
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Vegefoods</a>
+	      <a class="navbar-brand" href="index.php">Vegefoods</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="index.php" class="nav-link">Home</a></li>
 	          <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
               	<a class="dropdown-item" href="shop.php">Shop</a>
-                <a class="dropdown-item" href="product-single.html">Single Product</a>
-                <a class="dropdown-item" href="cart.html">Cart</a>
-                <a class="dropdown-item" href="checkout.html">Checkout</a>
+                <a class="dropdown-item" href="product-single.php">Single Product</a>
+                <a class="dropdown-item" href="cart.php">Cart</a>
+                <a class="dropdown-item" href="checkout.php">Checkout</a>
               </div>
             </li>
-	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+	          <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
 			  <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="username"><?php $username = $_SESSION['username']; echo $username ?></a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
-                <a class="dropdown-item" href="account.php">Register</a>
-                <a class="dropdown-item" href="login.php">Sign In</a>
+			  <?php if(isset($_SESSION['username'])) echo "<a class='dropdown-item' href='logout.php'>Logout</a>";
+			  else{
+				echo "<a class='dropdown-item' href='account.php'>Register</a>
+                <a class='dropdown-item' href='login.php'>Sign In</a>";
+			  } 
+			  ?>
               </div>
             </li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
-
+	          <li class="nav-item cta cta-colored"><a href="cart.php" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 	        </ul>
 	      </div>
 	    </div>

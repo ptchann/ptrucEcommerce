@@ -1,58 +1,14 @@
-
 <?php
+// echo  phpinfo(); exit;
 $servername = "mysql";
-$username = "ptchan";
+$usernamedb = "ptchan";
 $password = "ptchan";
 
-$conn = new mysqli($servername, $username, $password, 'banhang');
-
-// Khởi tạo SESSION
-// @ob_flush();
-// session_start();
-// if (isset($_SESSION['username'])){
-// unset($_SESSION['username']);
-// }
+$conn = new mysqli($servername, $usernamedb, $password, 'banhang');
 
 // Dùng Isset kiểm tra
-if (isset($_POST['login'])) {
-
-$username = addslashes($_POST['username']);
-$password = addslashes($_POST['password']);
-
-if (!$username || !$password) {
-  echo "Nhập đầy đủ thông tin <a href='login.php'>Trở lại</a>";
-  exit;
-}
-
-//Kiểm tra tên đăng nhập có tồn tại không
-$query = "SELECT * FROM users WHERE username='$username'";
-
-$result = mysqli_query($conn, $query) or die( mysqli_error($conn));
-
-$row = mysqli_fetch_array($result);
-
-//So sánh 2 mật khẩu có trùng khớp hay không
-if ($password != $row['password']) {
-    echo ("Password is incorrect, please re-enter. <a href='login.php'>Return</a>");
-    exit;
-    }
-//So sánh 2 user có trùng khớp hay không
-if ($username != $row['username']) {
-    echo ("Username is incorrect, please re-enter. <a href='login.php'>Return</a>");
-    exit;
-    }
-    if($row['level'] == 1){
-            $_SESSION ['level'] = $row['level'];
-        }
-        else{
-            $_SESSION ['level'] = 0;
-        }
-$_SESSION['username'] = $username;
-    echo ("Hello <b>" .$username. "</b>. Successful login. <a href='index1.php'>Go home</a>");
-    die();
-$conn->close();
-}
-
+@ob_flush();
+session_start();
 ?>
 <!-- html -->
 <!DOCTYPE html>
@@ -132,75 +88,44 @@ $conn->close();
         </div>
       </div>
     </div>
-    <nav
-      class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-      id="ftco-navbar"
-    >
-      <div class="container">
-        <a class="navbar-brand" href="index.html">Vegefoods</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#ftco-nav"
-          aria-controls="ftco-nav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="oi oi-menu"></span> Menu
-        </button>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.php">Vegefoods</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
 
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a href="index.html" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item active dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="dropdown04"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                >Shop</a
-              >
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="index.php" class="nav-link">Home</a></li>
+	          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
-                <a class="dropdown-item" href="shop.php">Shop</a>
-
-                <a class="dropdown-item" href="product-single.html"
-                  >Single Product</a
-                >
-                <a class="dropdown-item" href="cart.html">Cart</a>
-                <a class="dropdown-item" href="checkout.html">Checkout</a>
+              	<a class="dropdown-item" href="shop.php">Shop</a>
+                <a class="dropdown-item" href="product-single.php">Single Product</a>
+                <a class="dropdown-item" href="cart.php">Cart</a>
+                <a class="dropdown-item" href="checkout.php">Checkout</a>
               </div>
             </li>
-            <li class="nav-item">
-              <a href="about.html" class="nav-link">About</a>
+	          <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
+			  <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="username">Acount</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown04">
+			  <?php if(isset($_SESSION['username'])) echo "<a class='dropdown-item' href='logout.php'>Logout</a>";
+			  else{
+				echo "<a class='dropdown-item' href='account.php'>Register</a>
+              <a class='dropdown-item' href='login.php'>Sign In</a>";
+			  } 
+			  ?>
+              </div>
             </li>
-            <li class="nav-item">
-              <a href="blog.html" class="nav-link">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="contact.html" class="nav-link">Contact</a>
-            </li>
-		</li>
-		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
-			<div class="dropdown-menu" aria-labelledby="dropdown04">
-			  <a class="dropdown-item" href="account.php">Register</a>
-			  <a class="dropdown-item" href="login.php">Sign In</a>
-			</div>
-		  </li>
-            <li class="nav-item cta cta-colored">
-              <a href="cart.html" class="nav-link"
-                ><span class="icon-shopping_cart"></span>[0]</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+	          <li class="nav-item cta cta-colored"><a href="cart.php" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
     <!-- END nav -->
 
     <div
@@ -226,7 +151,7 @@ $conn->close();
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-7 ftco-animate">
-            <form action="login.php" class="billing-form" method="POST">
+            <form action="signin.php" class="billing-form" method="POST">
               <h3 class="mb-4 billing-heading">LOGIN</h3>
               <div class="row align-items-end">
                 <div class="col-md-6">
