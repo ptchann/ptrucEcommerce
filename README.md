@@ -1,0 +1,11 @@
+Mô tả:
+- account.php: Đăng ký
+- login.php + signin.php: Đăng nhập
+- logout: Đăng xuất
+- about: về người bán
+- shop: trang sản phẩm
+- product-single: sản phẩm chi tiết
+- cart: giỏ hàng
+- checkout: thanh toán giỏ hàng
+- blog
+- contact: liên hệ 
